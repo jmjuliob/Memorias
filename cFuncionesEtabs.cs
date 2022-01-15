@@ -13,7 +13,6 @@ namespace WFAAPIETABS
         public static cSapModel Modelo;
         public static cHelper MyHElper;
 
-
         public static void Open_Etabs()
         {
 
@@ -47,7 +46,38 @@ namespace WFAAPIETABS
             Application.UseWaitCursor = false;
         }
 
+        //public static void GetTablesKeys(ref string[] TableKey, ref int NumberTables)
+        public static void GetTablesKeys(ref string[] TableKey, ref int NumberTables, ref string[] TableName, ref int[] ImportType, ref bool[] IsEmpty)
+        {
+            //string[] TableName = null;
+            //int[] ImportType = null;
+            //bool[] IsEmpty = null;
 
+            cDatabaseTables Tablas = Modelo.DatabaseTables;
+
+            Tablas.GetAllTables(ref NumberTables, ref TableKey, ref TableName, ref ImportType, ref IsEmpty);
+        }
+
+        public static void TablesToExcel(ref string[] TableKeyList)
+        {
+            //Se cierran todos los procesos de excel que esten abiertos
+            System.Diagnostics.Process[] excelProcs = System.Diagnostics.Process.GetProcessesByName("EXCEL");
+            foreach (System.Diagnostics.Process proc in excelProcs)
+            {
+                proc.Kill();
+            }
+
+
+            int WindowHandle = 0;
+            cDatabaseTables Tablas = Modelo.DatabaseTables;
+
+            List<string> Load_Cases = new List<string>();
+            cAnalysisResults Analisis = Modelo.Results;
+            Load_Cases.AddRange(new string[] { "Modal", "EX1", "SXD" });
+            Set_Load_Cases(Load_Cases, ref Analisis, 0);
+
+            Tablas.ShowTablesInExcel(ref TableKeyList, WindowHandle);
+        }
 
         //public static void Get_Pier_Forces(ref Listas_Objetos Lista_i, string Piso, ref ProgressBar progressBar)
         //{

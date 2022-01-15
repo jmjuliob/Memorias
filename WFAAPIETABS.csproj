@@ -51,7 +51,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="cFormatExcel.cs" />
     <Compile Include="cFuncionesEtabs.cs" />
+    <Compile Include="cfuncionesExcel.cs" />
+    <Compile Include="cfuncionesWord.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -10,3 +10,14 @@ C:\Users\jmjul\Desktop\EFEPRIMACE\Programas\API ETABS\WFAAPIETABS\obj\Debug\WFAA
 C:\Users\jmjul\Desktop\EFEPRIMACE\Programas\API ETABS\WFAAPIETABS\bin\Debug\WFAAPIETABS.exe.config
 C:\Users\jmjul\Desktop\EFEPRIMACE\Programas\API ETABS\WFAAPIETABS\bin\Debug\ETABSv1.dll
 C:\Users\jmjul\Desktop\EFEPRIMACE\Programas\API ETABS\WFAAPIETABS\obj\Debug\WFAAPIETABS.csproj.ResolveComReference.cache
+C:\Users\jmjul\Desktop\EFEPRIMACE\Programas\API ETABS\WFAAPIETABS\Memorias\bin\Debug\WFAAPIETABS.exe.config
+C:\Users\jmjul\Desktop\EFEPRIMACE\Programas\API ETABS\WFAAPIETABS\Memorias\bin\Debug\WFAAPIETABS.exe
+C:\Users\jmjul\Desktop\EFEPRIMACE\Programas\API ETABS\WFAAPIETABS\Memorias\bin\Debug\WFAAPIETABS.pdb
+C:\Users\jmjul\Desktop\EFEPRIMACE\Programas\API ETABS\WFAAPIETABS\Memorias\obj\Debug\WFAAPIETABS.csproj.AssemblyReference.cache
+C:\Users\jmjul\Desktop\EFEPRIMACE\Programas\API ETABS\WFAAPIETABS\Memorias\obj\Debug\WFAAPIETABS.csproj.ResolveComReference.cache
+C:\Users\jmjul\Desktop\EFEPRIMACE\Programas\API ETABS\WFAAPIETABS\Memorias\obj\Debug\WFAAPIETABS.Form1.resources
+C:\Users\jmjul\Desktop\EFEPRIMACE\Programas\API ETABS\WFAAPIETABS\Memorias\obj\Debug\WFAAPIETABS.Properties.Resources.resources
+C:\Users\jmjul\Desktop\EFEPRIMACE\Programas\API ETABS\WFAAPIETABS\Memorias\obj\Debug\WFAAPIETABS.csproj.GenerateResource.cache
+C:\Users\jmjul\Desktop\EFEPRIMACE\Programas\API ETABS\WFAAPIETABS\Memorias\obj\Debug\WFAAPIETABS.csproj.CoreCompileInputs.cache
+C:\Users\jmjul\Desktop\EFEPRIMACE\Programas\API ETABS\WFAAPIETABS\Memorias\obj\Debug\WFAAPIETABS.exe
+C:\Users\jmjul\Desktop\EFEPRIMACE\Programas\API ETABS\WFAAPIETABS\Memorias\obj\Debug\WFAAPIETABS.pdb
