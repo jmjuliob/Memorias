@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="cFormatExcel.cs" />
+    <Compile Include="cFormatWord.cs" />
     <Compile Include="cFuncionesEtabs.cs" />
     <Compile Include="cfuncionesExcel.cs" />
     <Compile Include="cfuncionesWord.cs" />

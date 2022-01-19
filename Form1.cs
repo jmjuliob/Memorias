@@ -31,8 +31,8 @@ namespace WFAAPIETABS
         {
             cFuncionesEtabs.Open_Etabs();
             double[] Periods = { };
-            double[] UX = { }; double[] UY = { }; double[] UZ = { }; double[] RX = { };
-            double[] RY = { }; double[] RZ = { };
+            double[] UX = { }; double[] UY = { }; double[] UZ = { }; 
+            double[] RX = { }; double[] RY = { }; double[] RZ = { };
 
             cFuncionesEtabs.Open_Etabs();
             cFuncionesEtabs.Get_ModalPeriods(ref Periods, ref UX, ref UY, ref UZ, ref RX, ref RY, ref RZ);
@@ -54,132 +54,128 @@ namespace WFAAPIETABS
 
             cfuncionesExcel.GetCurrentOpenExcel();
 
+            /*
+             * NOTA IMPORTANTE: no se recomienda usar foreach con las librerías interop 
+             * porque pueden conducir a excepciones
+             **/ 
 
-            for (int i = 1; i < TablasExcel.Length + 1; i++)
+            for (int i = 1; i <= TablasExcel.Length; i++)
             {
-                cfuncionesExcel.oSheet = (Excel._Worksheet)cfuncionesExcel.oWB.Worksheets[i];
-                cFormatExcel.DarFormato(cfuncionesExcel.oSheet);
+                cfuncionesExcel.oHojaExcel = (Excel._Worksheet)cfuncionesExcel.oLibroExcel.Worksheets[i];
+                cfuncionesExcel.DeleteLoadCases(cfuncionesExcel.oHojaExcel,"Modal");
+                cfuncionesExcel.DeleteColumns(cfuncionesExcel.oHojaExcel, "Step Type");
+                cfuncionesExcel.DeleteColumns(cfuncionesExcel.oHojaExcel, "Step Number");
+                cFormatExcel.DarFormato(cfuncionesExcel.oHojaExcel);
 
-                cfuncionesExcel.oRng= cfuncionesExcel.oSheet.UsedRange;
-                cfuncionesExcel.oRng.Copy();
+                cfuncionesExcel.oRango= cfuncionesExcel.oHojaExcel.UsedRange;
+                cfuncionesExcel.oRango.Copy();
                 if (i==1)
                 {
                     cfuncionesWord.OpenWordTemplate();
-                    Word.Paragraph oPara1 = cfuncionesWord.oDoc.Content.Paragraphs.Add(ref cfuncionesWord.oMissing);
+                    Word.Paragraph oPara1 = cfuncionesWord.oDocumentoWord.Content.Paragraphs.Add(ref cfuncionesWord.oMissing);
                     oPara1.Range.Text = TablasExcel[i-1];
                     oPara1.Range.InsertParagraphAfter();
                     oPara1.Range.Paste();
+                    cFormatWord.RepeatTitleRows(cfuncionesWord.oDocumentoWord.Content.Tables[i]);
                 }
                 else
                 {
-                    Word.Paragraph oPara1 = cfuncionesWord.oDoc.Content.Paragraphs.Add(ref cfuncionesWord.oMissing);
+                    Word.Paragraph oPara1 = cfuncionesWord.oDocumentoWord.Content.Paragraphs.Add(ref cfuncionesWord.oMissing);
                     oPara1.Range.Text = TablasExcel[i - 1];
                     oPara1.Range.InsertParagraphAfter();
                     oPara1.Range.Paste();
-                    
+                    cFormatWord.RepeatTitleRows(cfuncionesWord.oDocumentoWord.Content.Tables[i]);
                 }
-
             }
 
-            Word.Table firstTable = cfuncionesWord.oDoc.Content.Tables[2];
-            //Word.Row title = firstTable.Rows[3];
-            firstTable.Rows[1].HeadingFormat = -1;
-            firstTable.Rows[2].HeadingFormat = -1;
-            firstTable.Rows[3].HeadingFormat = -1;
+            cfuncionesWord.oDocumentoWord.SaveAs2(@"C:\Users\jmjul\Desktop\EFEPRIMACE\Programas\Word\test.docx");
+            cfuncionesWord.oDocumentoWord.Close();
+
+            cfuncionesExcel.oLibroExcel.SaveAs(@"C:\Users\jmjul\Desktop\EFEPRIMACE\Programas\Word\test.xlsx");
+            cfuncionesExcel.oLibroExcel.Close();
 
 
-            //firstTable.Range("A1", "J3").Rows.HeadingFormat = Word.WdConstants.wdToggle;
-
-            cfuncionesWord.oDoc.SaveAs2(@"C:\Users\jmjul\Desktop\EFEPRIMACE\Programas\Word\test.docx");
-            cfuncionesWord.oDoc.Close();
-
-            cfuncionesExcel.oWB.SaveAs(@"C:\Users\jmjul\Desktop\EFEPRIMACE\Programas\Word\test.xlsx");
-            cfuncionesExcel.oWB.Close();
 
 
-            //        Selection.PasteExcelTable False, False, False
-            //Selection.Rows.HeadingFormat = wdToggle
-
-
-            //Excel.Range oRng = null;
+            //Excel.Range oRango = null;
 
             //try
             //{
-            //    oXL = new Excel.Application();
-            //    oXL = (Excel.Application)System.Runtime.InteropServices.Marshal.GetActiveObject("Excel.Application");
-            //    oWB = oXL.ActiveWorkbook;
-            //    oSheet = (Excel._Worksheet)oWB.ActiveSheet;
-            //    oSheet.get_Range("A4", "C4").Font.Name = "Courier New";
+            //    oExcelApp = new Excel.Application();
+            //    oExcelApp = (Excel.Application)System.Runtime.InteropServices.Marshal.GetActiveObject("Excel.Application");
+            //    oLibroExcel = oExcelApp.ActiveWorkbook;
+            //    oHojaExcel = (Excel._Worksheet)oLibroExcel.ActiveSheet;
+            //    oHojaExcel.get_Range("A4", "C4").Font.Name = "Courier New";
 
 
 
-            //    //oWB = (Excel._Workbook)(oXL.Workbooks.Add(Missing.Value));
+            //    //oLibroExcel = (Excel._Workbook)(oExcelApp.Workbooks.Add(Missing.Value));
 
             //}
             //finally
             //{
-            //    if (oWB != null) System.Runtime.InteropServices.Marshal.ReleaseComObject(oWB);
-            //    if (oSheet != null) System.Runtime.InteropServices.Marshal.ReleaseComObject(oSheet);
+            //    if (oLibroExcel != null) System.Runtime.InteropServices.Marshal.ReleaseComObject(oLibroExcel);
+            //    if (oHojaExcel != null) System.Runtime.InteropServices.Marshal.ReleaseComObject(oHojaExcel);
 
             //}
 
 
-            //Excel.Application oXL;
+            //Excel.Application oExcelApp;
 
-            //oXL = new Excel.Application();
-
-
+            //oExcelApp = new Excel.Application();
 
 
 
-            //Excel._Workbook oWB;
-            //Excel._Worksheet oSheet;
-            //Excel.Range oRng;
+
+
+            //Excel._Workbook oLibroExcel;
+            //Excel._Worksheet oHojaExcel;
+            //Excel.Range oRango;
 
             ////Start Excel and get Application object.
-            ////oXL = new Excel.Application();
+            ////oExcelApp = new Excel.Application();
 
 
             ////Get a new workbook.
-            ////oXL.Visible = true;
+            ////oExcelApp.Visible = true;
 
-            //oWB = oXL.ActiveWorkbook;
-
-
-            //oWB = (Excel._Workbook)(oXL.Workbooks.Add(Missing.Value));
+            //oLibroExcel = oExcelApp.ActiveWorkbook;
 
 
-            //oSheet = (Excel._Worksheet)oWB.ActiveSheet;
+            //oLibroExcel = (Excel._Workbook)(oExcelApp.Workbooks.Add(Missing.Value));
+
+
+            //oHojaExcel = (Excel._Worksheet)oLibroExcel.ActiveSheet;
 
             //try
             //{
             //    //Add table headers going cell by cell.                
             //    for (int i = 1; i < Enum.GetNames(typeof(eTableStories)).Length+1 ; i++)
             //    {
-            //        oSheet.Cells[1, i] = ((eTableStories)i - 1).ToString();
+            //        oHojaExcel.Cells[1, i] = ((eTableStories)i - 1).ToString();
 
             //        for (int j = 2; j < StoryNames.Count()+1; j++)
             //        {
             //            if (i==1)
             //            {
-            //                oSheet.Cells[j, i] = StoryNames[j - 2+1];
+            //                oHojaExcel.Cells[j, i] = StoryNames[j - 2+1];
             //            }
             //            else if (i == 2)
             //            {
-            //                oSheet.Cells[j, i] = Math.Round(StoryElevations[j - 2 + 1], 2);
+            //                oHojaExcel.Cells[j, i] = Math.Round(StoryElevations[j - 2 + 1], 2);
             //            }
             //            else if (i == 3)
             //            {
-            //                oSheet.Cells[j, i] = Math.Round(StoryHeights[j - 2 + 1], 2);
+            //                oHojaExcel.Cells[j, i] = Math.Round(StoryHeights[j - 2 + 1], 2);
             //            }
             //        }
             //    }
 
 
-            //    oSheet.get_Range("A1", ((eNNtoAN)Enum.GetNames(typeof(eTableStories)).Length).ToString() + StoryNames.Count().ToString()).Font.Name = "Courier New";
-            //    oSheet.get_Range("A1", ((eNNtoAN)Enum.GetNames(typeof(eTableStories)).Length).ToString() + "1").Font.Bold = true;
-            //    oSheet.get_Range("A1", ((eNNtoAN)Enum.GetNames(typeof(eTableStories)).Length).ToString() + "1").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
-            //    oSheet.get_Range("A1", ((eNNtoAN)Enum.GetNames(typeof(eTableStories)).Length).ToString() + StoryNames.Count().ToString()).Borders.Weight= Excel.XlBorderWeight.xlThin;
+            //    oHojaExcel.get_Range("A1", ((eNNtoAN)Enum.GetNames(typeof(eTableStories)).Length).ToString() + StoryNames.Count().ToString()).Font.Name = "Courier New";
+            //    oHojaExcel.get_Range("A1", ((eNNtoAN)Enum.GetNames(typeof(eTableStories)).Length).ToString() + "1").Font.Bold = true;
+            //    oHojaExcel.get_Range("A1", ((eNNtoAN)Enum.GetNames(typeof(eTableStories)).Length).ToString() + "1").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            //    oHojaExcel.get_Range("A1", ((eNNtoAN)Enum.GetNames(typeof(eTableStories)).Length).ToString() + StoryNames.Count().ToString()).Borders.Weight= Excel.XlBorderWeight.xlThin;
 
 
             //}
@@ -199,35 +195,35 @@ namespace WFAAPIETABS
             //object oEndOfDoc = "\\endofdoc"; /* \endofdoc is a predefined bookmark */
 
             ////Start Word and create a new document.
-            //Word._Application oWord;
-            //Word._Document oDoc;
-            //oWord = new Word.Application();
-            //oWord.Visible = false;
-            ////oDoc = oWord.Documents.Add(ref oMissing, ref oMissing, ref oMissing, ref oMissing);
+            //Word._Application oWordApp;
+            //Word._Document oDocumentoWord;
+            //oWordApp = new Word.Application();
+            //oWordApp.Visible = false;
+            ////oDocumentoWord = oWordApp.Documents.Add(ref oMissing, ref oMissing, ref oMissing, ref oMissing);
 
             //object oTemplate = @"C:\Users\jmjul\Desktop\EFEPRIMACE\Programas\Word\FC.docx";
-            //oDoc = oWord.Documents.Add(ref oTemplate, ref oMissing,
+            //oDocumentoWord = oWordApp.Documents.Add(ref oTemplate, ref oMissing,
             //ref oMissing, ref oMissing);
 
-            //Word.Paragraph oPara1 = oDoc.Content.Paragraphs.Add(ref oMissing);
+            //Word.Paragraph oPara1 = oDocumentoWord.Content.Paragraphs.Add(ref oMissing);
             //oPara1.Range.Text = "Heading 1";
             //oPara1.Range.Font.Bold = 1;
             //oPara1.Format.SpaceAfter = 24;    //24 pt spacing after paragraph.
             //oPara1.Range.InsertParagraphAfter();
 
-            //Word.Table firstTable = oDoc.Tables.Add(oPara1.Range, 1, 1, ref oMissing, ref oMissing);
+            //Word.Table firstTable = oDocumentoWord.Tables.Add(oPara1.Range, 1, 1, ref oMissing, ref oMissing);
 
-            //oSheet.get_Range("A1", ((eNNtoAN)Enum.GetNames(typeof(eTableStories)).Length).ToString() + StoryNames.Count().ToString()).Copy();
+            //oHojaExcel.get_Range("A1", ((eNNtoAN)Enum.GetNames(typeof(eTableStories)).Length).ToString() + StoryNames.Count().ToString()).Copy();
 
             //firstTable.Rows.Select();
 
             //firstTable.Range.Paste();
 
-            //oDoc.SaveAs2(@"C:\Users\jmjul\Desktop\EFEPRIMACE\Programas\Word\test.docx");
-            //oDoc.Close();
+            //oDocumentoWord.SaveAs2(@"C:\Users\jmjul\Desktop\EFEPRIMACE\Programas\Word\test.docx");
+            //oDocumentoWord.Close();
 
-            //oWB.SaveAs(@"C:\Users\jmjul\Desktop\EFEPRIMACE\Programas\Word\test.xlsx");
-            //oWB.Close();
+            //oLibroExcel.SaveAs(@"C:\Users\jmjul\Desktop\EFEPRIMACE\Programas\Word\test.xlsx");
+            //oLibroExcel.Close();
 
 
             //firstTable.Borders.Enable = 1;
